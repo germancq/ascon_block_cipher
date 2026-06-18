@@ -1,0 +1,54 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# File              : ascon_linear_diffusion_layer_test.py
+# Author            : German C.Quiveu <germancq@dte.us.es>
+# Date              : 08.10.2025
+# Last Modified Date: 08.10.2025
+# Last Modified By  : German C.Quiveu <germancq@dte.us.es>
+
+import os
+import random
+import sys
+
+import ascon_aead
+import cocotb
+import numpy as np
+from cocotb.clock import Clock
+from cocotb.regression import TestFactory
+from cocotb.triggers import FallingEdge, RisingEdge, Timer
+
+
+@cocotb.test()
+async def test(dut, index=0):
+
+    key = random.getrandbits(128)
+    nonce = random.getrandbits(128)
+
+    ascon_sw = ascon_aead.ASCON_AEAD(key, nonce)
+    ascon_sw.get_initial_state()
+
+    for i in range(0, 5):
+        dut.state_ascon_dout[i].value = ascon_sw.state_array[i]
+
+    await Timer(10, units="ns")
+
+    for i in range(0, 5):
+        assert (
+            dut.state_ascon_dout[i].value == ascon_sw.state_array[i]
+        ), f"ERROR DOUT en state{i}, expected = {hex(ascon_sw.state_array[i])}, calculated = {hex(dut.state_ascon_dout[i].value)}"
+
+    ascon_sw.linear_diffusion_layer()
+
+    await Timer(10, units="ns")
+
+    for i in range(0, 5):
+        assert (
+            dut.state_ascon_din[i].value == ascon_sw.state_array[i]
+        ), f"ERROR en state{i}, expected = {hex(ascon_sw.state_array[i])}, calculated = {hex(dut.state_ascon_din[i].value)}"
+
+
+n = 0x5
+factory = TestFactory(test)
+
+factory.add_option("index", range(0, n))
+factory.generate_tests()
