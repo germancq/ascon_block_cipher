@@ -165,22 +165,22 @@ module encrypt #(
       mux_4 #(
           .DATA_WIDTH(64)
       ) mux_state_din (
-          .a  (custom_state_ascon_din[i]),
-          .b  (custom_state_ascon_din[i]),
-          .c  (i_state_impl_state_ascon_din[i]),
-          .d  (p_impl_state_ascon_din[i]),
-          .e  (state_ascon_din[i]),
+          .a(custom_state_ascon_din[i]),
+          .b(custom_state_ascon_din[i]),
+          .c(i_state_impl_state_ascon_din[i]),
+          .d(p_impl_state_ascon_din[i]),
+          .dout(state_ascon_din[i]),
           .sel(sel_i_state)
       );
 
       mux_4 #(
           .DATA_WIDTH(1)
       ) mux_state_w (
-          .a  (custom_state_ascon_w[i]),
-          .b  (custom_state_ascon_w[i]),
-          .c  (1),
-          .d  (p_impl_state_ascon_w[i]),
-          .e  (state_ascon_w[i]),
+          .a(custom_state_ascon_w[i]),
+          .b(custom_state_ascon_w[i]),
+          .c(1),
+          .d(p_impl_state_ascon_w[i]),
+          .dout(state_ascon_w[i]),
           .sel(sel_i_state)
       );
 
