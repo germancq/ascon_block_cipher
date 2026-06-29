@@ -58,7 +58,7 @@ async def permutation_loop_test(dut, ascon_sw):
 
         await n_cycles_clock(dut, 1)
 
-        ascon_sw.constant_addition_layer(dut.total_rounds.value, i)
+        ascon_sw.constant_addition_layer(int(dut.total_rounds.value), i)
 
         assert int(dut.current_state.value) == int(
             dut.CTE_LAYER.value
