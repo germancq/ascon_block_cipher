@@ -293,7 +293,7 @@ async def tag_state_test(dut, ascon_sw):
     await n_cycles_clock(dut, 1)
     check_state(dut, ascon_sw)
 
-    ascon_sw.ascon_permutation(dut.a.value)
+    ascon_sw.ascon_permutation(int(dut.a.value))
 
     ascon_sw.print_state()
 
