@@ -396,6 +396,6 @@ async def test(dut, index=0):
 
     ascon_sw2 = ascon_aead.ASCON_AEAD(key, nonce)
     expected_ciphertext, expected_tag = ascon_sw2.encrypt(
-        plaintext, a_data, dut.plaintext_len.value
+        plaintext, a_data, int(dut.plaintext_len.value)
     )
     await end_state_test(dut, expected_ciphertext, expected_tag)
