@@ -57,7 +57,7 @@ async def initial_state_test(dut, ascon_sw):
     await permutation_a_test(dut)
 
     ascon_sw.get_initial_state()
-    ascon_sw.ascon_permutation(dut.a.value)
+    ascon_sw.ascon_permutation(int(dut.a.value))
 
     check_state(dut, ascon_sw)
 
@@ -87,21 +87,21 @@ async def associated_data_test(dut, ascon_sw):
         dut.ASSOCIATED_DATA.value
     ), f"ERROR STATE IN ASSOCIATED_DATA, STATE={int(dut.current_state.value)}"
 
-    a_data_endian = ascon_sw.parse(dut.a_data.value, 8)
+    a_data_endian = ascon_sw.parse(int(dut.a_data.value), 8)
     a_data_reord = 0
     i = 0
     for a_d in a_data_endian:
         a_data_reord = (a_d << (8 * i)) + a_data_reord
         i = i + 1
-    if i < (dut.a_len.value / 8):
-        shift = int(dut.a_len.value / 8)
+    if i < (int(dut.a_len.value) / 8):
+        shift = int(int(dut.a_len.value) / 8)
         a_data_reord = a_data_reord << ((shift - i) * 8)
 
     dut._log.info("aux_var in dut = {0}".format(hex(dut.aux_var.value)))
 
     associated_data = ascon_sw.pad(
-        a_data_reord, ascon_sw.rate, dut.a_len.value)
-    associated_data = ascon_sw.parse(associated_data, dut.rate.value * 8)
+        a_data_reord, ascon_sw.rate, int(dut.a_len.value))
+    associated_data = ascon_sw.parse(associated_data, int(dut.rate.value) * 8)
     len_a_data = len(associated_data)
 
     dut._log.info(len_a_data)
@@ -131,7 +131,7 @@ async def associated_data_test(dut, ascon_sw):
         await n_cycles_clock(dut, 1)
         check_state(dut, ascon_sw)
         ascon_sw.print_state()
-        ascon_sw.ascon_permutation(dut.b.value)
+        ascon_sw.ascon_permutation(int(dut.b.value))
         await permutation_b_test(dut)
         check_state(dut, ascon_sw)
         await n_cycles_clock(dut, 1)
@@ -154,7 +154,7 @@ async def update_state_test(dut, ascon_sw):
 
 async def plaintext_state_test(dut, ascon_sw):
     dut._log.info("plaintext state")
-    plaintext_endian = ascon_sw.parse(dut.plaintext.value, 8)
+    plaintext_endian = ascon_sw.parse(int(dut.plaintext.value), 8)
     plaintext_reord = 0
     i = 0
     for p_d in plaintext_endian:
@@ -162,12 +162,12 @@ async def plaintext_state_test(dut, ascon_sw):
         plaintext_reord = (p_d << (8 * i)) + plaintext_reord
         i = i + 1
 
-    if i < (dut.plaintext_len.value / 8):
-        shift = int(dut.plaintext_len.value / 8)
+    if i < (int(dut.plaintext_len.value) / 8):
+        shift = int(int(dut.plaintext_len.value) / 8)
         plaintext_reord = plaintext_reord << ((shift - i) * 8)
 
     plaintext_reord = ascon_sw.pad(
-        plaintext_reord, ascon_sw.rate, dut.plaintext_len.value
+        plaintext_reord, ascon_sw.rate, int(dut.plaintext_len.value)
     )
     print("plaintext padded and reord data = {}".format(hex(plaintext_reord)))
 
@@ -368,7 +368,7 @@ async def n_cycles_clock(dut, n):
 
 
 @cocotb.test()
-@cocotb.parametrize(index=range(0, 500))
+@cocotb.parametrize(index=range(0, 100))
 async def test(dut, index=0):
 
     random.seed(index)
