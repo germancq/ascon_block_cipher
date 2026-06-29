@@ -163,7 +163,7 @@ module encrypt #(
       );
 
       mux_4 #(
-          .DATA_WIDTH(64)
+          .N(64)
       ) mux_state_din (
           .a(custom_state_ascon_din[i]),
           .b(custom_state_ascon_din[i]),
@@ -174,7 +174,7 @@ module encrypt #(
       );
 
       mux_4 #(
-          .DATA_WIDTH(1)
+          .N(1)
       ) mux_state_w (
           .a(custom_state_ascon_w[i]),
           .b(custom_state_ascon_w[i]),
