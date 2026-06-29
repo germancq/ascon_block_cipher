@@ -14,12 +14,14 @@ import ascon_aead
 import cocotb
 import numpy as np
 from cocotb.clock import Clock
-from cocotb.regression import TestFactory
 from cocotb.triggers import FallingEdge, RisingEdge, Timer
 
 
 @cocotb.test()
+@cocotb.parametrize(index=range(0, 10))
 async def test(dut, index=0):
+
+    random.seed(index)
 
     key = random.getrandbits(128)
     nonce = random.getrandbits(128)
@@ -41,10 +43,3 @@ async def test(dut, index=0):
         assert (
             dut.state_2_din.value == ascon_sw.state_array[2]
         ), f"ERROR in output, expected = {hex(ascon_sw.state_array[2])}, calculated = {hex(dut.state_2_din.value)}"
-
-
-n = 0x5
-factory = TestFactory(test)
-
-factory.add_option("index", range(0, n))
-factory.generate_tests()

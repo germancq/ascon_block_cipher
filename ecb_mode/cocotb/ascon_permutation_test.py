@@ -14,14 +14,13 @@ import ascon_aead
 import cocotb
 import numpy as np
 from cocotb.clock import Clock
-from cocotb.regression import TestFactory
 from cocotb.triggers import FallingEdge, RisingEdge, Timer
 
 CLK_PERIOD = 20
 
 
 def setup_dut(dut, total_rounds, state_ascon):
-    cocotb.fork(Clock(dut.clk, CLK_PERIOD, "ns").start())
+    cocotb.start_soon(Clock(dut.clk, CLK_PERIOD, unit="ns").start())
     dut.rst.value = 0
     dut.start.value = 0
     dut.total_rounds.value = total_rounds
@@ -32,13 +31,13 @@ def setup_dut(dut, total_rounds, state_ascon):
 async def rst_function_test(dut):
     dut.rst.value = 1
     await n_cycles_clock(dut, 1)
-    assert (
-        dut.current_state.value == dut.IDLE.value
-    ), f"ERROR STATE IN RST, STATE={dut.current_state.value}"
+    assert int(dut.current_state.value) == int(
+        dut.IDLE.value
+    ), f"ERROR STATE IN RST, STATE={int(dut.current_state.value)}"
     await n_cycles_clock(dut, 10)
-    assert (
-        dut.current_state.value == dut.IDLE.value
-    ), f"ERROR STATE IN RST, STATE={dut.current_state.value}"
+    assert int(dut.current_state.value) == int(
+        dut.IDLE.value
+    ), f"ERROR STATE IN RST, STATE={int(dut.current_state.value)}"
 
     assert dut.counter_rounds_dout.value == 0, f"ERROR IDLE in counter"
 
@@ -48,9 +47,9 @@ async def permutation_loop_test(dut, ascon_sw):
 
     dut.rst.value = 0
     await n_cycles_clock(dut, 1)
-    assert (
-        dut.current_state.value == dut.IDLE.value
-    ), f"ERROR STATE IN RST, STATE={dut.current_state.value}"
+    assert int(dut.current_state.value) == int(
+        dut.IDLE.value
+    ), f"ERROR STATE IN RST, STATE={int(dut.current_state.value)}"
 
     dut.start.value = 1
 
@@ -61,9 +60,9 @@ async def permutation_loop_test(dut, ascon_sw):
 
         ascon_sw.constant_addition_layer(dut.total_rounds.value, i)
 
-        assert (
-            dut.current_state.value == dut.CTE_LAYER.value
-        ), f"ERROR STATE IN CTE_LAYER, STATE={dut.current_state.value}"
+        assert int(dut.current_state.value) == int(
+            dut.CTE_LAYER.value
+        ), f"ERROR STATE IN CTE_LAYER, STATE={int(dut.current_state.value)}"
 
         assert dut.state_ascon_w[2].value == 1, f"ERROR in CTE_LAYER Write signal"
 
@@ -85,9 +84,9 @@ async def permutation_loop_test(dut, ascon_sw):
 
         ascon_sw.substitution_layer()
 
-        assert (
-            dut.current_state.value == dut.SUBS_LAYER.value
-        ), f"ERROR STATE IN SUBS_LAYER, STATE={dut.current_state.value}"
+        assert int(dut.current_state.value) == int(
+            dut.SUBS_LAYER.value
+        ), f"ERROR STATE IN SUBS_LAYER, STATE={int(dut.current_state.value)}"
 
         for j in range(0, 5):
             assert (
@@ -109,9 +108,9 @@ async def permutation_loop_test(dut, ascon_sw):
 
         ascon_sw.linear_diffusion_layer()
 
-        assert (
-            dut.current_state.value == dut.DIFF_LAYER.value
-        ), f"ERROR STATE IN DIFF_LAYER, STATE={dut.current_state.value}"
+        assert int(dut.current_state.value) == int(
+            dut.DIFF_LAYER.value
+        ), f"ERROR STATE IN DIFF_LAYER, STATE={int(dut.current_state.value)}"
 
         for j in range(0, 5):
             assert (
@@ -137,9 +136,9 @@ async def permutation_loop_test(dut, ascon_sw):
 
 async def end_state_test(dut, calculated_state, expected_state):
     await n_cycles_clock(dut, 1)
-    assert (
-        dut.current_state.value == dut.END_STATE.value
-    ), f"ERROR STATE IN END_STATE, STATE={dut.current_state.value}"
+    assert int(dut.current_state.value) == int(
+        dut.END_STATE.value
+    ), f"ERROR STATE IN END_STATE, STATE={int(dut.current_state.value)}"
 
     assert dut.end_signal.value == 1, f"ERROR end_signal"
 
@@ -149,9 +148,9 @@ async def end_state_test(dut, calculated_state, expected_state):
         ), f"ERROR in state {i}, expected={hex(expected_state[i])}, calculated = {hex(calculated_state[i])}"
 
     await n_cycles_clock(dut, 10)
-    assert (
-        dut.current_state.value == dut.END_STATE.value
-    ), f"ERROR STATE IN END_STATE, STATE={dut.current_state.value}"
+    assert int(dut.current_state.value) == int(
+        dut.END_STATE.value
+    ), f"ERROR STATE IN END_STATE, STATE={int(dut.current_state.value)}"
 
 
 async def n_cycles_clock(dut, n):
@@ -161,7 +160,10 @@ async def n_cycles_clock(dut, n):
 
 
 @cocotb.test()
+@cocotb.parametrize(index=range(0, 10))
 async def test(dut, index=0):
+
+    random.seed(index)
 
     key = random.getrandbits(128)
     nonce = random.getrandbits(128)
@@ -184,10 +186,3 @@ async def test(dut, index=0):
     ascon_sw_2.ascon_permutation(t_rnds)
 
     await end_state_test(dut, calculated_state, ascon_sw_2.state_array)
-
-
-n = 0x40
-factory = TestFactory(test)
-
-factory.add_option("index", range(0, n))
-factory.generate_tests()
