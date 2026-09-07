@@ -265,9 +265,9 @@ def ascon_initialize(S, k, rate, a, b, version, key, nonce):
         + int_to_bytes(taglen, 2)
         + to_bytes([rate, 0, 0])
     )
-    print(iv)
-    print(key)
-    print(nonce)
+    print(bytes_to_hex(iv))
+    print(bytes_to_hex(key))
+    print(bytes_to_hex(nonce))
     S[0], S[1], S[2], S[3], S[4] = bytes_to_state(iv + key + nonce)
     if debug:
         printstate(S, "initial value:")

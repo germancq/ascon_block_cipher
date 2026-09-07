@@ -94,8 +94,8 @@ module initialization_phase #(
         p_impl_rst   = 1;
         next_state   = END_STATE;
 
-        state_din[3] = state_dout[3] ^ key[127:64];
-        state_din[4] = state_dout[4] ^ key[63:0];
+        state_din[3] = state_dout[3] ^ key[63:0];
+        state_din[4] = state_dout[4] ^ key[127:64];
 
         state_w[3]   = 1;
         state_w[4]   = 1;
