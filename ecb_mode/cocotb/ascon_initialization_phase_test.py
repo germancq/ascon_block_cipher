@@ -10,12 +10,12 @@ import os
 import random
 import sys
 
-import cocotb
 import numpy as np
+from ascon import *
+
+import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import FallingEdge, RisingEdge, Timer
-
-from ascon import *
 
 CLK_PERIOD = 20
 
@@ -105,11 +105,11 @@ async def test(dut, index=0):
     S = [0, 0, 0, 0, 0]
     expected_result = ascon_initialize(
         S,
-        dut.k.value,
-        dut.rate.value,
-        dut.a.value,
-        dut.b.value,
-        dut.version.value,
+        int(dut.k.value),
+        int(dut.rate.value),
+        int(dut.a.value),
+        int(dut.b.value),
+        int(dut.version.value),
         key,
         nonce,
     )
