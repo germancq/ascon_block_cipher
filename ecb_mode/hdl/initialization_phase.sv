@@ -60,10 +60,10 @@ module initialization_phase #(
           state_din[0][63:48] = 0;  //64'h00001000808C0001;
           state_din[0][63:48] = 0;  //64'h00001000808C0001;
 
-          state_din[1] = key[127:64];
-          state_din[2] = key[63:0];
-          state_din[3] = nonce[127:64];
-          state_din[4] = nonce[63:0];
+          state_din[1] = key[63:0];
+          state_din[2] = key[127:64];
+          state_din[3] = nonce[63:0];
+          state_din[4] = nonce[127:64];
 
           for (j = 0; j < 5; j++) begin
             state_w[j] = 1;
