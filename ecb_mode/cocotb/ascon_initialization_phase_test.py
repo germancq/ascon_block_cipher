@@ -100,7 +100,9 @@ async def test(dut, index=0):
     random.seed(index)
 
     key = random.getrandbits(dut.k.value)
+    dut.log(hex(key))
     nonce = random.getrandbits(128)
+    dut.log(hex(nonce))
 
     S = [0, 0, 0, 0, 0]
     expected_result = ascon_initialize(
@@ -110,8 +112,8 @@ async def test(dut, index=0):
         int(dut.a.value),
         int(dut.b.value),
         int(dut.version.value),
-        to_bytes(key),
-        to_bytes(nonce),
+        key.to_bytes(16, "big"),
+        nonce.to_bytes(16, "big"),
     )
 
     setup_dut(dut, key, nonce)
