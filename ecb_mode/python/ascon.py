@@ -544,7 +544,7 @@ def demo_aead(variant="Ascon-AEAD128", bytes_used=8):
     # choose a cryptographically strong random key and a nonce that never repeats for the same key:
     key = get_random_bytes(16)  # zero_bytes(16)
     # get_random_bytes(16)  # zero_bytes(16)
-    nonce = get_random_bytes(16)
+    nonce = bytes.fromhex("f7c1bd874da5e709d4713d60c8a70639")
 
     len_bytes = bytes_used
     # get_random_bytes(len_bytes)  # b"ASCON"
