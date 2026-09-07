@@ -50,7 +50,7 @@ async def test_initialization(dut, expected_State):
     await RisingEdge(dut.clk)
     for i in range(0, 5):
         assert dut.state_w[i].value == 1, f"ERROR Write signal in IDLE"
-        S_dut[i] = dut.state_din[i].value
+        S_dut[i] = int(dut.state_din[i].value)
     await FallingEdge(dut.clk)
     assert int(dut.current_state.value) == int(
         dut.ASCON_PERMUTATION_A_0.value
