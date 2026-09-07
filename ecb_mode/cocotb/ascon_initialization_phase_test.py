@@ -27,7 +27,7 @@ def setup_dut(dut, key, nonce):
     dut.key.value = key
     dut.nonce.value = nonce
     dut.p_impl_end.value = 0
-    for i in range(0, 6):
+    for i in range(0, 5):
         dut.state_dout[i].value = 0
 
 
@@ -48,7 +48,7 @@ async def test_initialization(dut, expected_State):
     dut.start.value = 1
     S_dut = [0, 0, 0, 0, 0]
     await RisingEdge(dut.clk)
-    for i in range(0, 6):
+    for i in range(0, 5):
         assert dut.state_w[i].value == 1, f"ERROR Write signal in IDLE"
         S_dut[i] = dut.state_din[i].value
     await FallingEdge(dut.clk)
@@ -62,7 +62,7 @@ async def test_initialization(dut, expected_State):
     ), f"ERROR STATE IN TEST, STATE={int(dut.current_state.value)}"
     dut.p_impl_end.value = 1
 
-    for i in range(0, 6):
+    for i in range(0, 5):
         dut.state_dout[i].value = S_dut[i]
 
     await n_cycles_clock(dut, 1)
@@ -81,7 +81,7 @@ async def test_initialization(dut, expected_State):
 
     assert dut.end_signal.value == 1, f"ERROR in End_signal"
 
-    for i in range(0, 6):
+    for i in range(0, 5):
         assert (
             S_dut[i] == expected_State[i]
         ), f"Error in state {i} expected {hex(expected_State[i])}, calculated={hex(S_dut[i])}"
