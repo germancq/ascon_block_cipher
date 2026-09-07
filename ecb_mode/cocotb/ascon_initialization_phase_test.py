@@ -100,9 +100,9 @@ async def test(dut, index=0):
     random.seed(index)
 
     key = random.getrandbits(dut.k.value)
-    dut.log(hex(key))
+    dut._log.info(hex(key))
     nonce = random.getrandbits(128)
-    dut.log(hex(nonce))
+    dut._log.info(hex(nonce))
 
     S = [0, 0, 0, 0, 0]
     expected_result = ascon_initialize(
