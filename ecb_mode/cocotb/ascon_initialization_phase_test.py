@@ -55,7 +55,7 @@ async def test_initialization(dut, expected_State):
     assert int(dut.current_state.value) == int(
         dut.ASCON_PERMUTATION_A_0.value
     ), f"ERROR STATE IN TEST, STATE={int(dut.current_state.value)}"
-    ascon_permutation(S_dut, dut.a.value)
+    ascon_permutation(S_dut, int(dut.a.value))
     await n_cycles_clock(dut, 1)
     assert int(dut.current_state.value) == int(
         dut.ASCON_PERMUTATION_A_1.value
