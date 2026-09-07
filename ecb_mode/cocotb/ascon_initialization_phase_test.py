@@ -110,8 +110,8 @@ async def test(dut, index=0):
         int(dut.a.value),
         int(dut.b.value),
         int(dut.version.value),
-        key,
-        nonce,
+        to_bytes(key),
+        to_bytes(nonce),
     )
 
     setup_dut(dut, key, nonce)
