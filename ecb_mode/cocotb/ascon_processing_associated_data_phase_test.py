@@ -123,13 +123,8 @@ async def test_associated_data(dut, expected_State, A_array, num_blocks):
         dut.FINAL_STEP_0.value
     ), f"ERROR STATE IN TEST, STATE={int(dut.current_state.value)}"
 
-    if int(dut.rate.value == 8):
-        assert dut.state_w[0].value == 1, f"ERROR Write signal"
-        S_dut[0] = int(dut.state_din[0].value)
-
-    if int(dut.rate.value) == 16:
-        assert dut.state_w[1].value == 1, f"ERROR Write signal"
-        S_dut[1] = int(dut.state_din[1].value)
+    assert dut.state_w[0].value == 1, f"ERROR Write signal"
+    S_dut[0] = int(dut.state_din[0].value)
 
     await n_cycles_clock(dut, 1)
 
