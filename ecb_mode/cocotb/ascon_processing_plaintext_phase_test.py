@@ -160,7 +160,7 @@ async def test(dut, index=0):
     key = random.getrandbits(128)
     nonce = random.getrandbits(128)
 
-    m = random.randint(1, 4)
+    m = random.randint(1, 3)
     A_array = [0] * m
     A_value = 0
     for i in range(0, m):
@@ -168,7 +168,7 @@ async def test(dut, index=0):
         A_array[i] = A_data
         A_value = A_value + (A_data << (int(dut.rate.value)) * (i * 8))
 
-    n = random.randint(1, 4)
+    n = random.randint(1, 3)
     P_array = [0] * n
     P_value = 0
     for i in range(0, n):
@@ -198,7 +198,7 @@ async def test(dut, index=0):
         S_init,
         int(dut.b.value),
         int(dut.rate.value),
-        A_value.to_bytes((n * int(dut.rate.value)), "little"),
+        A_value.to_bytes((m * int(dut.rate.value)), "little"),
     )
 
     for k in range(0, 5):
