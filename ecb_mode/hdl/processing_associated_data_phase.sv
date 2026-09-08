@@ -82,8 +82,8 @@ module processing_associated_data_phase #(
           state_din[0] = state_dout[0] ^ block_i[63:0];
           state_w[0]   = 1;
         end else if (rate == 16) begin
-          state_din[0] = state_dout[0] ^ block_i[63:0];
-          state_din[1] = state_dout[1] ^ block_i[127:64];
+          state_din[0] = state_dout[0] ^ block_i[127:64];
+          state_din[1] = state_dout[1] ^ block_i[63:0];
           state_w[0]   = 1;
           state_w[1]   = 1;
         end else begin
