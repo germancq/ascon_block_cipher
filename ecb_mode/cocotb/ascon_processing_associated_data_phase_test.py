@@ -100,6 +100,8 @@ async def test_associated_data(dut, expected_State, A_array, num_blocks):
             dut.END_FEED.value
         ), f"ERROR STATE IN TEST, STATE={int(dut.current_state.value)}"
 
+        dut._log.info(dut.last_block.value)
+
         await n_cycles_clock(dut, 1)
 
         if dut.last_block.value == 1:
