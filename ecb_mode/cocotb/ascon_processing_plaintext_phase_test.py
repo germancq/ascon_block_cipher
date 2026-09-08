@@ -75,12 +75,16 @@ async def test_plaintext_data(dut, expected_State, P_array, num_blocks):
 
         dut._log.info("S0 is {0}".format(hex(dut.state_din[0].value)))
         dut._log.info("block_i is {0}".format(hex(dut.block_i.value)))
+        dut._log.info("r_block_din is {0}".format(hex(dut.r_block_din.value)))
 
         if int(dut.rate.value) == 16:
             assert dut.state_w[1].value == 1, f"ERROR Write signal"
             S_dut[1] = int(dut.state_din[1].value)
 
         await n_cycles_clock(dut, 1)
+
+        C_array[n] = int(dut.block_o.value)
+        dut._log.info("block_o is {0}".format(hex(dut.block_o.value)))
 
         assert int(dut.current_state.value) == int(
             dut.ASCON_PERMUTATION_B_0.value
@@ -115,8 +119,6 @@ async def test_plaintext_data(dut, expected_State, P_array, num_blocks):
                 dut.END_FEED_0.value
             ), f"ERROR STATE IN TEST, STATE={int(dut.current_state.value)}"
 
-            C_array[n] = int(dut.block_o.value)
-
             dut.feed_block.value = 1
             dut.block_i.value = P_array[n + 1]
 
@@ -136,6 +138,8 @@ async def test_plaintext_data(dut, expected_State, P_array, num_blocks):
     assert int(dut.current_state.value) == int(
         dut.END_STATE.value
     ), f"ERROR STATE IN TEST, STATE={int(dut.current_state.value)}"
+
+    C_array[num_blocks] = int(dut.block_o.value)
 
     for i in range(0, 5):
         assert (
