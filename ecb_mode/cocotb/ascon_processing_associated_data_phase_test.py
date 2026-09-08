@@ -48,11 +48,14 @@ async def test_associated_data(dut, expected_State, A_array, num_blocks):
     S_dut = [0, 0, 0, 0, 0]
     await n_cycles_clock(dut, 1)
     for n in range(0, num_blocks):
+        dut._log.info("cycle {n} in test with data={hex(A_array[n])}")
 
         if n == num_blocks - 1:
             dut.last_block.value = 1
         else:
             dut.last_block.value = 0
+
+        dut.block_i.value = A_array[n]
 
         assert int(dut.current_state.value) == int(
             dut.XOR_DATA.value
