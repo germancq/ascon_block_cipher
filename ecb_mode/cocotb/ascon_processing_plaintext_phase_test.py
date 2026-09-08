@@ -160,6 +160,14 @@ async def test(dut, index=0):
     key = random.getrandbits(128)
     nonce = random.getrandbits(128)
 
+    m = random.randint(1, 4)
+    A_array = [0] * m
+    A_value = 0
+    for i in range(0, m):
+        A_data = random.getrandbits(int(dut.rate.value) * 8)
+        A_array[i] = A_data
+        A_value = A_value + (A_data << (int(dut.rate.value)) * (i * 8))
+
     n = random.randint(1, 4)
     P_array = [0] * n
     P_value = 0
