@@ -147,6 +147,9 @@ async def test_plaintext_data(dut, expected_State, P_array, num_blocks):
             S_dut[i] == expected_State[i]
         ), f"Error in state {i} expected {hex(expected_State[i])}, calculated={hex(S_dut[i])}"
 
+    for i in range(0, num_blocks + 1):
+        dut._log.info("C_array[{0}] = {1}".format(i, hex(C_array[i])))
+
     return C_array
 
 
