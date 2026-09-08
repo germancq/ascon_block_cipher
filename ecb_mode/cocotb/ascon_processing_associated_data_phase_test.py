@@ -214,7 +214,7 @@ async def test(dut, index=0):
         S,
         int(dut.b.value),
         int(dut.rate.value),
-        A_value.to_bytes((n * int(dut.rate.value)), "little"),
+        A_value.to_bytes((n * int(dut.rate.value)), "big"),
     )
 
     setup_dut(dut, S_init)
