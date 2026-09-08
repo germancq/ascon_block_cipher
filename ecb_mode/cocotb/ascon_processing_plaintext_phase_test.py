@@ -213,6 +213,6 @@ async def test(dut, index=0):
     await rst_function_test(dut)
     calculated_ciphertext = await test_plaintext_data(dut, S, P_array, n)
 
-    dut._log.info(hex(expected_ciphertext))
+    dut._log.info(bytes_to_hex(expected_ciphertext))
     for i in range(0, n):
         dut._log.info(hex(calculated_ciphertext[n]))
