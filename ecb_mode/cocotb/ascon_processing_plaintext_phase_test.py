@@ -47,7 +47,7 @@ async def test_plaintext_data(dut, expected_State, P_array, num_blocks):
     dut.start.value = 1
     S_dut = [0, 0, 0, 0, 0]
 
-    C_array = [0] * (num_blocks + 1)
+    C_array = [0] * (num_blocks)
 
     for i in range(0, 5):
         S_dut[i] = int(dut.state_dout[i].value)
@@ -140,14 +140,12 @@ async def test_plaintext_data(dut, expected_State, P_array, num_blocks):
         dut.END_STATE.value
     ), f"ERROR STATE IN TEST, STATE={int(dut.current_state.value)}"
 
-    C_array[num_blocks] = int(dut.block_o.value)
-
     for i in range(0, 5):
         assert (
             S_dut[i] == expected_State[i]
         ), f"Error in state {i} expected {hex(expected_State[i])}, calculated={hex(S_dut[i])}"
 
-    for i in range(0, num_blocks + 1):
+    for i in range(0, num_blocks):
         dut._log.info("C_array[{0}] = {1}".format(i, hex(C_array[i])))
 
     return C_array
@@ -221,8 +219,6 @@ async def test(dut, index=0):
 
     setup_dut(dut, S_init)
     await rst_function_test(dut)
-    calculated_ciphertext = await test_plaintext_data(dut, S, P_array, n)
+    await test_plaintext_data(dut, S, P_array, n)
 
     dut._log.info(bytes_to_hex(expected_ciphertext))
-    for i in range(0, n):
-        dut._log.info(hex(calculated_ciphertext[n]))

@@ -154,19 +154,12 @@ module processing_plaintext_phase #(
       FINAL_STEP_0: begin
 
         state_din[0] = state_dout[0] ^ (1);
-        state_w[0] = 1;
+        state_w[0]   = 1;
 
-        r_block_o_w = 1;
-        r_block_o_din = state_dout[0] ^ (1);
-        //if (rate == 8) begin
-        //  state_din[0] = state_dout[0] ^ (1 << 63);
-        //  state_w[0]   = 1;
-        //end else if (rate == 16) begin
-        //  state_din[1] = state_dout[1] ^ (1 << 63);
-        //  state_w[1]   = 1;
-        //end
+        // suppose plaintext are multiples of rate
+        // if P_len % rate = 0 
 
-        next_state = END_STATE;
+        next_state   = END_STATE;
 
       end
       END_STATE: begin
