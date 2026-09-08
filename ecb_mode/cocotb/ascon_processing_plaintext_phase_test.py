@@ -75,7 +75,8 @@ async def test_plaintext_data(dut, expected_State, P_array, num_blocks):
 
         dut._log.info("S0 is {0}".format(hex(dut.state_din[0].value)))
         dut._log.info("block_i is {0}".format(hex(dut.block_i.value)))
-        dut._log.info("r_block_din is {0}".format(hex(dut.r_block_din.value)))
+        dut._log.info("r_block_o_din is {0}".format(
+            hex(dut.r_block_o_din.value)))
 
         if int(dut.rate.value) == 16:
             assert dut.state_w[1].value == 1, f"ERROR Write signal"
