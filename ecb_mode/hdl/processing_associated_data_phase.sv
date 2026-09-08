@@ -144,7 +144,7 @@ module processing_associated_data_phase #(
 
       end
       FINAL_STEP_1: begin
-        state_din[4] = state_dout[4] ^ (1);
+        state_din[4] = state_dout[4] ^ (1 << 63);
         state_w[4]   = 1;
         next_state   = END_STATE;
       end
