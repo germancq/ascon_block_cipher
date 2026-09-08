@@ -41,7 +41,7 @@ module processing_plaintext_phase #(
       .cl(r_block_o_cl),
       .w(r_block_o_w),
       .din(r_block_o_din),
-      .dout(r_block_o)
+      .dout(block_o)
   );
 
   logic [3:0] current_state, next_state, jmp_state;
