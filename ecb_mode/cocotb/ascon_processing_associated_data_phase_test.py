@@ -192,6 +192,9 @@ async def test(dut, index=0):
     for k in range(0, 5):
         S[k] = S_init[k]
 
+    dut._log.info(hex(A_value))
+    dut._log.info(n)
+
     expected_result = ascon_process_associated_data(
         S,
         int(dut.b.value),
