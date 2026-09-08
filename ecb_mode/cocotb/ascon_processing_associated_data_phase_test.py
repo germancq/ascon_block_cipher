@@ -48,7 +48,11 @@ async def test_associated_data(dut, expected_State, A_array, num_blocks):
     S_dut = [0, 0, 0, 0, 0]
     await n_cycles_clock(dut, 1)
     for n in range(0, num_blocks):
-        dut._log.info(f"cycle {n} in test with data={hex(A_array[n])}")
+        dut._log.info(
+            "cycle {0} with numblocks = {2} in test with data={1}".format(
+                n, hex(A_array[n]), num_blocks
+            )
+        )
 
         if n == num_blocks - 1:
             dut.last_block.value = 1
