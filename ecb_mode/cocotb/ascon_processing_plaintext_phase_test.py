@@ -172,13 +172,15 @@ async def test(dut, index=0):
     P_array = [0] * n
     P_value = 0
     for i in range(0, n):
-        P_data = ((random.getrandbits(int(dut.rate.value) * 8)) | ((1 << (int(dut.rate.value)*8)-1))
-        P_array[i]=P_data
-        P_value=P_value + (P_data << (int(dut.rate.value)) * (i * 8))
+        P_data = (random.getrandbits(int(dut.rate.value) * 8)) | (
+            (1 << (int(dut.rate.value) * 8) - 1)
+        )
+        P_array[i] = P_data
+        P_value = P_value + (P_data << (int(dut.rate.value)) * (i * 8))
 
-    S_init=[0, 0, 0, 0, 0]
-    S=[0, 0, 0, 0, 0]
-    initial_ascon=ascon_initialize(
+    S_init = [0, 0, 0, 0, 0]
+    S = [0, 0, 0, 0, 0]
+    initial_ascon = ascon_initialize(
         S_init,
         int(128),
         int(dut.rate.value),
@@ -200,9 +202,9 @@ async def test(dut, index=0):
     )
 
     for k in range(0, 5):
-        S[k]=S_init[k]
+        S[k] = S_init[k]
 
-    expected_ciphertext=ascon_process_plaintext(
+    expected_ciphertext = ascon_process_plaintext(
         S,
         int(dut.b.value),
         int(dut.rate.value),
@@ -211,7 +213,7 @@ async def test(dut, index=0):
 
     setup_dut(dut, S_init)
     await rst_function_test(dut)
-    calculated_ciphertext=await test_plaintext_data(dut, S, P_array, n)
+    calculated_ciphertext = await test_plaintext_data(dut, S, P_array, n)
 
     dut._log.info(bytes_to_hex(expected_ciphertext))
     for i in range(0, n):
