@@ -46,6 +46,10 @@ async def test_associated_data(dut, expected_State, A_array, num_blocks):
     dut.rst.value = 0
     dut.start.value = 1
     S_dut = [0, 0, 0, 0, 0]
+
+    for i in range(0, 5):
+        S_dut[i] = int(dut.state_dout[i].value)
+
     await n_cycles_clock(dut, 1)
     for n in range(0, num_blocks):
         dut._log.info(
