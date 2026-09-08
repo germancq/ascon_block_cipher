@@ -50,8 +50,8 @@ async def test_associated_data(dut, expected_State, A_array, num_blocks):
     for i in range(0, 5):
         S_dut[i] = int(dut.state_dout[i].value)
 
-    await n_cycles_clock(dut, 1)
     dut.block_i.value = A_array[0]
+    await n_cycles_clock(dut, 1)
     for n in range(0, num_blocks):
         dut._log.info(
             "cycle {0} with numblocks = {2} in test with data={1}".format(
