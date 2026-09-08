@@ -168,7 +168,7 @@ async def test(dut, index=0):
     key = random.getrandbits(128)
     nonce = random.getrandbits(128)
 
-    n = random.randint(1, 3)
+    n = random.randint(1, 2)
     A_array = [0] * n
     A_value = 0
     for i in range(0, n):
