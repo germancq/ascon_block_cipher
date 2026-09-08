@@ -128,13 +128,15 @@ module processing_associated_data_phase #(
       end
       FINAL_STEP_0: begin
 
-        if (rate == 8) begin
-          state_din[0] = state_dout[0] ^ (1 << 63);
-          state_w[0]   = 1;
-        end else if (rate == 16) begin
-          state_din[1] = state_dout[1] ^ (1 << 63);
-          state_w[1]   = 1;
-        end
+        state_din[0] = state_dout[0] ^ (1);
+        state_w[0] = 1;
+        //if (rate == 8) begin
+        //  state_din[0] = state_dout[0] ^ (1 << 63);
+        //  state_w[0]   = 1;
+        //end else if (rate == 16) begin
+        //  state_din[1] = state_dout[1] ^ (1 << 63);
+        //  state_w[1]   = 1;
+        //end
 
         next_state = ASCON_PERMUTATION_B_0;
         r_jmp_state_w = 1;
@@ -142,8 +144,8 @@ module processing_associated_data_phase #(
 
       end
       FINAL_STEP_1: begin
-        state_din[0] = state_dout[0] ^ (1);
-        state_w[0]   = 1;
+        state_din[4] = state_dout[4] ^ (1);
+        state_w[4]   = 1;
         next_state   = END_STATE;
       end
       END_STATE: begin

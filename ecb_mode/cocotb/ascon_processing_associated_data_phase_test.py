@@ -50,7 +50,6 @@ async def test_associated_data(dut, expected_State, A_array, num_blocks):
     for i in range(0, 5):
         S_dut[i] = int(dut.state_dout[i].value)
 
-    dut.block_i.value = A_array[0]
     await n_cycles_clock(dut, 1)
     for n in range(0, num_blocks):
         dut._log.info(
@@ -156,8 +155,8 @@ async def test_associated_data(dut, expected_State, A_array, num_blocks):
         dut.FINAL_STEP_1.value
     ), f"ERROR STATE IN TEST, STATE={int(dut.current_state.value)}"
 
-    assert dut.state_w[0].value == 1, f"ERROR Write signal"
-    S_dut[0] = int(dut.state_din[0].value)
+    assert dut.state_w[4].value == 1, f"ERROR Write signal"
+    S_dut[4] = int(dut.state_din[4].value)
 
     await n_cycles_clock(dut, 1)
 
