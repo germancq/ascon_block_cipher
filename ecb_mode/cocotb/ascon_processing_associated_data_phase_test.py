@@ -72,6 +72,7 @@ async def test_associated_data(dut, expected_State, A_array, num_blocks):
         S_dut[0] = int(dut.state_din[0].value)
 
         dut._log.info("S0 is {0}".format(hex(dut.state_din[0].value)))
+        dut._log.info("block_i is {0}".format(hex(dut.block_i.value)))
 
         if int(dut.rate.value) == 16:
             assert dut.state_w[1].value == 1, f"ERROR Write signal"
