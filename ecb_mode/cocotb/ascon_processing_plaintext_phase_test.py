@@ -57,7 +57,7 @@ async def test_plaintext_data(dut, expected_State, P_array, num_blocks):
     for n in range(0, num_blocks):
         dut._log.info(
             "cycle {0} with numblocks = {2} in test with data={1}".format(
-                n, hex(A_array[n]), num_blocks
+                n, hex(P_array[n]), num_blocks
             )
         )
 
