@@ -115,10 +115,10 @@ module processing_associated_data_phase #(
       end
       END_FEED: begin
         p_impl_rst = 1;
+        next_state = END_FEED_0;
         if (last_block == 1) begin
           next_state = FINAL_STEP_0;
         end
-        next_state = END_FEED_0;
       end
       END_FEED_0: begin
         end_signal = 1;
