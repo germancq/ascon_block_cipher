@@ -79,10 +79,10 @@ async def test_finalization(dut, expected_State):
         dut.XOR_KEY.value
     ), f"ERROR STATE IN TEST, STATE={int(dut.current_state.value)}"
 
-    await n_cycles_clock(dut, 1)
-
     for i in range(3, 5):
-        S_dut[i] = int(dut.state_dout[i].value)
+        S_dut[i] = int(dut.state_din[i].value)
+
+    await n_cycles_clock(dut, 1)
 
     assert int(dut.current_state.value) == int(
         dut.END_STATE.value
