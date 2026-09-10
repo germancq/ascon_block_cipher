@@ -197,7 +197,7 @@ async def test(dut, index=0):
         nonce.to_bytes(16, "little"),
     )
 
-    dut._log.info(hex(P_value))
+    dut._log.info(hex(C_value))
     dut._log.info(n)
 
     ascon_process_associated_data(
