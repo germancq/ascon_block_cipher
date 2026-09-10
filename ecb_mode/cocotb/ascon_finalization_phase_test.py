@@ -162,7 +162,7 @@ async def test(dut, index=0):
         S, int(dut.rate.value), int(dut.a.value), key.to_bytes(16, "little")
     )
 
-    setup_dut(dut, key, nonce)
+    setup_dut(dut, key, S_init)
     await rst_function_test(dut)
     await test_finalization(dut, S)
     dut._log.info(bytes_to_hex(tag_value))
