@@ -380,8 +380,10 @@ def ascon_process_ciphertext(S, b, rate, ciphertext):
             bytes_to_int(c_padded[block: block + 8]),
             bytes_to_int(c_padded[block + 8: block + 16]),
         )
-
-        print("block Ci = {0}".format(bytes_to_hex(Ci)))
+        print("block_Ci_0 = {0}".format(
+            bytes_to_hex(c_padded[block: block + 8])))
+        print("block_Ci_1 = {0}".format(
+            bytes_to_hex(c_padded[block + 8: block + 16])))
 
         plaintext += int_to_bytes(S[0] ^ Ci[0], 8) + \
             int_to_bytes(S[1] ^ Ci[1], 8)
