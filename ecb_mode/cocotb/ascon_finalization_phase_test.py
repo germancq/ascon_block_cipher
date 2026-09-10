@@ -42,6 +42,7 @@ async def rst_function_test(dut):
 
 
 async def test_finalization(dut, expected_State):
+    dut._log.info("START FINALIZATION PHASE")
     dut.rst.value = 0
     dut.start.value = 1
     S_dut = [0, 0, 0, 0, 0]
