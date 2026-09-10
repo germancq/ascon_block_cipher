@@ -44,11 +44,14 @@ async def rst_function_test(dut):
 async def test_finalization(dut, expected_State):
     dut._log.info("START FINALIZATION PHASE")
     dut.rst.value = 0
-    dut.start.value = 1
     S_dut = [0, 0, 0, 0, 0]
 
     for i in range(0, 5):
         S_dut[i] = int(dut.state_dout[i].value)
+
+    await n_cycles_clock(dut, 2)
+
+    dut.start.value = 1
 
     await RisingEdge(dut.clk)
     if int(dut.rate.value) == 8:

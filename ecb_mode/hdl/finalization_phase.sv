@@ -67,15 +67,15 @@ module finalization_phase #(
           next_state = ASCON_PERMUTATION_A_0;
 
           if (rate == 16) begin
-            state_din[3] = key[127:64];
-            state_din[2] = key[63:0];
+            state_din[3] = state_dout[3] ^ key[127:64];
+            state_din[2] = state_dout[2] ^ key[63:0];
 
             state_w[2]   = 1;
             state_w[3]   = 1;
 
           end else if (rate == 8) begin
-            state_din[2] = key[127:64];
-            state_din[1] = key[63:0];
+            state_din[2] = state_dout[2] ^ key[127:64];
+            state_din[1] = state_dout[1] ^ key[63:0];
 
             state_w[1]   = 1;
             state_w[2]   = 1;
