@@ -121,7 +121,7 @@ async def test_ciphertext_data(dut, expected_State, C_array, num_blocks):
             ), f"ERROR STATE IN TEST, STATE={int(dut.current_state.value)}"
 
             dut.feed_block.value = 1
-            dut.block_i.value = P_array[n + 1]
+            dut.block_i.value = C_array[n + 1]
 
             await n_cycles_clock(dut, 1)
 
