@@ -367,8 +367,11 @@ def ascon_process_ciphertext(S, b, rate, ciphertext):
     ciphertext: a bytes object of arbitrary length
     returns the plaintext, updates S
     """
+    print("ciphertext_data = {0}".format(bytes_to_hex(ciphertext)))
+    print("rate = {0}".format(rate))
     c_lastlen = len(ciphertext) % rate
     c_padded = ciphertext + zero_bytes(rate - c_lastlen)
+    print("c_padded = {0}".format(bytes_to_hex(c_padded)))
 
     # first t-1 blocks
     plaintext = to_bytes([])
@@ -377,6 +380,9 @@ def ascon_process_ciphertext(S, b, rate, ciphertext):
             bytes_to_int(c_padded[block: block + 8]),
             bytes_to_int(c_padded[block + 8: block + 16]),
         )
+
+        print("block Ci = {0}".format(bytes_to_hex(Ci)))
+
         plaintext += int_to_bytes(S[0] ^ Ci[0], 8) + \
             int_to_bytes(S[1] ^ Ci[1], 8)
         S[0] = Ci[0]
