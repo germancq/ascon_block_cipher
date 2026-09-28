@@ -43,7 +43,6 @@ async def test_ascon(
     dut._log.info("START INITIALIZATION")
     while dut.init_end_signal.value == 0:
         await n_cycles_clock(dut, 1)
-        dut._log.info(dut.impl_init_phase.current_state.value)
 
     dut._log.info("START A_DATA")
     for i in range(0, num_blocks_a_data):
@@ -83,6 +82,7 @@ async def test_ascon(
     dut._log.info("START FINALIZATION")
     while dut.end_signal.value == 0:
         await n_cycles_clock(dut, 1)
+        dut._log.info(dut.impl_fin_phase.current_state.value)
 
     dut._log.info("tag = {}".format(hex(dut.tag.value)))
 
