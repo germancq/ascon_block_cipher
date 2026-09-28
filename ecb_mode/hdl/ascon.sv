@@ -36,7 +36,7 @@ module ascon #(
   logic p_impl_end_signal;
   permutation p_impl (
       .clk(clk),
-      .rst(p_impl_rst),
+      .rst(rst),
       .start(p_impl_start),
       .total_rounds(p_impl_total_rounds),
       .state_ascon_dout(state_ascon_dout),
