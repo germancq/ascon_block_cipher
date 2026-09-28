@@ -10,9 +10,10 @@ import sys
 
 import cocotb
 import numpy as np
-from ascon import *
 from cocotb.clock import Clock
 from cocotb.triggers import FallingEdge, RisingEdge, Timer
+
+from ascon import *
 
 CLK_PERIOD = 20
 
@@ -85,6 +86,8 @@ async def test_ascon(
                 await n_cycles_clock(dut, 1)
 
     for i in range(0, 5):
+        dut._log.info(hex(dut.state_ascon_dout[i].value))
+    for i in range(0, 5):
         assert (
             dut.state_ascon_dout.value[i] == S_a_data[i]
         ), f"Error in state {i} expected {hex(S_a_data[i])}, calculated={hex(dut.state_ascon_dout.value[i])}"
@@ -117,6 +120,8 @@ async def test_ascon(
         dut._log.info("C_array {} = {}".format(i, hex(C_array[i])))
 
     for i in range(0, 5):
+        dut._log.info(hex(dut.state_ascon_dout[i].value))
+    for i in range(0, 5):
         assert (
             dut.state_ascon_dout.value[i] == S_i_data[i]
         ), f"Error in state {i} expected {hex(S_i_data[i])}, calculated={hex(dut.state_ascon_dout.value[i])}"
@@ -137,6 +142,8 @@ async def test_ascon(
         await n_cycles_clock(dut, 1)
         # dut._log.info(dut.impl_fin_phase.current_state.value)
 
+    for i in range(0, 5):
+        dut._log.info(hex(dut.state_ascon_dout[i].value))
     for i in range(0, 5):
         assert (
             dut.state_ascon_dout.value[i] == S_fin_data[i]
