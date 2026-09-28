@@ -80,9 +80,11 @@ async def test_ascon(
         dut._log.info("C_array {} = {}".format(i, hex(C_array[i])))
 
     dut._log.info("START FINALIZATION")
+    dut._log.info("plaintext_end_signal = {}".format(
+        dut.plaintext_end_signal.value))
     while dut.end_signal.value == 0:
         await n_cycles_clock(dut, 1)
-        dut._log.info(dut.impl_fin_phase.current_state.value)
+        # dut._log.info(dut.impl_fin_phase.current_state.value)
 
     dut._log.info("tag = {}".format(hex(dut.tag.value)))
 
