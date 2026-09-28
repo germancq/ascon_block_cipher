@@ -117,7 +117,7 @@ async def test(dut, index=0):
         P_array[i] = P_data
         P_value = P_value + (P_data << (int(dut.rate.value)) * (i * 8))
 
-    C, tag_expected = ascon_encrypt(
+    C = ascon_encrypt(
         key.to_bytes(16, "little"),
         nonce.to_bytes(16, "little"),
         P_value.to_bytes((n * int(dut.rate.value)), "little"),
@@ -127,4 +127,4 @@ async def test(dut, index=0):
     setup_dut(dut, key, nonce)
     await test_ascon(dut, A_array, m, P_array, n)
     dut._log.info(bytes_to_hex(C))
-    dut._log.info(bytes_to_hex(tag_expected))
+    # dut._log.info(bytes_to_hex(tag_expected))
