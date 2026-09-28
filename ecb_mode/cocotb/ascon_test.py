@@ -95,6 +95,11 @@ async def test_ascon(
     dut._log.info("START FINALIZATION")
     dut._log.info("plaintext_end_signal = {}".format(
         dut.plaintext_end_signal.value))
+    dut._log.info(
+        "plaintext last_block signal = {}".format(
+            dut.impl_plaintext_phase.last_block.value
+        )
+    )
     dut._log.info(dut.impl_plaintext_phase.current_state.value)
     dut._log.info("ciphertext_end_signal = {}".format(
         dut.ciphertext_end_signal.value))
