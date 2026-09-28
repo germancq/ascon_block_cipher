@@ -82,6 +82,10 @@ async def test_ascon(
     dut._log.info("START FINALIZATION")
     dut._log.info("plaintext_end_signal = {}".format(
         dut.plaintext_end_signal.value))
+    dut._log.info(dut.impl_plaintext_phase.current_state.value)
+    dut._log.info("ciphertext_end_signal = {}".format(
+        dut.ciphertext_end_signal.value))
+    dut._log.info(dut.impl_ciphertext_phase.current_state.value)
     while dut.end_signal.value == 0:
         await n_cycles_clock(dut, 1)
         # dut._log.info(dut.impl_fin_phase.current_state.value)
