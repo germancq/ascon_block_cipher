@@ -83,7 +83,7 @@ async def test_ascon(
         await n_cycles_clock(dut, 1)
         dut.feed_block.value = 0
 
-        if i == num_blocks_a_data - 1:
+        if i == num_blocks_i_data - 1:
             dut._log.info("LAST BLOCK 2")
             dut.last_block.value = 1
             while dut.plaintext_end_signal.value == 0:
