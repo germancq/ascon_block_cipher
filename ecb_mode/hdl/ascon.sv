@@ -214,6 +214,8 @@ module ascon #(
 
   assign block_o = enc_dec == 0 ? plaintext_block_o : ciphertext_block_o;
 
+  assign p_impl_start = init_p_impl_start | a_data_p_impl_start | plaintext_p_impl_start | ciphertext_p_impl_start | finalization_p_impl_start;
+
   logic p_active;
   assign p_active = init_p_active | a_data_p_active | plaintext_p_active | ciphertext_p_active | finalization_p_active;
 
