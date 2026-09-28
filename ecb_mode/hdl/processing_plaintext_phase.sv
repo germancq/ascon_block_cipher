@@ -80,7 +80,7 @@ module processing_plaintext_phase #(
       state_w[j]   = 0;
       state_din[j] = 0;
     end
-    p_impl_rounds = b;
+    p_impl_rounds = 0;
     p_impl_rst = 0;
     p_impl_start = 0;
     p_active = 0;
