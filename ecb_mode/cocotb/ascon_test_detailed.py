@@ -54,9 +54,12 @@ async def test_ascon(
         await n_cycles_clock(dut, 1)
 
     for i in range(0, 5):
+        dut._log.info(hex(dut.state_ascon_dout[i].value))
+
+    for i in range(0, 5):
         assert (
-            dut.state_ascon_dout.value[i] == S_init[i]
-        ), f"Error in state {i} expected {hex(S_init[i])}, calculated={hex(dut.state_ascon_dout.value[i])}"
+            dut.state_ascon_dout[i].value == S_init[i]
+        ), f"Error in state {i} expected {hex(S_init[i])}, calculated={hex(dut.state_ascon_dout[i].value)}"
 
     dut._log.info("START A_DATA")
     for i in range(0, num_blocks_a_data):
