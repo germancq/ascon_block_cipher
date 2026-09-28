@@ -106,11 +106,6 @@ module permutation (
       end
       END_STATE: begin
         end_signal = 1;
-        //counter_rounds_rst = 1;
-        //if (start) begin
-        //  next_state = CTE_LAYER;
-        //end
-        next_state = IDLE;
       end
 
     endcase

@@ -36,7 +36,7 @@ module ascon #(
   logic p_impl_end_signal;
   permutation p_impl (
       .clk(clk),
-      .rst(rst),
+      .rst(rst | p_impl_rst),
       .start(p_impl_start),
       .total_rounds(p_impl_total_rounds),
       .state_ascon_dout(state_ascon_dout),
@@ -217,6 +217,8 @@ module ascon #(
   assign p_impl_start = init_p_impl_start | a_data_p_impl_start | plaintext_p_impl_start | ciphertext_p_impl_start | finalization_p_impl_start;
 
   assign p_impl_total_rounds = init_p_impl_rounds | a_data_p_impl_rounds | plaintext_p_impl_rounds | ciphertext_p_impl_rounds | finalization_p_impl_rounds;
+
+  assign p_impl_rst = init_p_impl_rst | a_data_p_impl_rst | plaintext_p_impl_rst | ciphertext_p_impl_rst | finalization_p_impl_rst;
 
   logic p_active;
   assign p_active = init_p_active | a_data_p_active | plaintext_p_active | ciphertext_p_active | finalization_p_active;
