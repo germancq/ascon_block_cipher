@@ -51,6 +51,10 @@ async def test_ascon(
         dut._log.info("cycle a_data = {}".format(i))
         dut.block_i.value = a_data_array[i]
         dut.feed_block.value = 1
+        if i == num_blocks_a_data - 1:
+            dut.last_block.value = 1
+        else:
+            dut.last_block.value = 0
         await n_cycles_clock(dut, 1)
         dut.feed_block.value = 0
 
@@ -68,6 +72,11 @@ async def test_ascon(
         dut._log.info("cycle i_data = {}".format(i))
         dut.block_i.value = i_data_array[i]
         dut.feed_block.value = 1
+        if i == num_blocks_i_data - 1:
+            dut.last_block.value = 1
+        else:
+            dut.last_block.value = 0
+
         await n_cycles_clock(dut, 1)
         dut.feed_block.value = 0
 
