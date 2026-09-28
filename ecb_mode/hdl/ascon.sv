@@ -11,9 +11,7 @@ module ascon #(
     parameter b = 8,
     parameter k = 128,
     parameter rate = 16,
-    parameter version = 1,
-    parameter a_len = 32,
-    parameter plaintext_len = 96
+    parameter version = 1
 ) (
     input clk,
     input rst,
