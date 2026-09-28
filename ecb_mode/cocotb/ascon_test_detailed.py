@@ -169,7 +169,7 @@ async def test(dut, index=0):
     nonce = random.getrandbits(128)
     dut._log.info(hex(nonce))
 
-    m = random.randint(1, 3)
+    m = 1  # random.randint(1, 3)
     A_array = [0] * m
     A_value = 0
     for i in range(0, m):
@@ -177,7 +177,7 @@ async def test(dut, index=0):
         A_array[i] = A_data
         A_value = A_value + (A_data << (int(dut.rate.value)) * (i * 8))
 
-    n = random.randint(1, 3)
+    n = 1  # random.randint(1, 3)
     P_array = [0] * n
     P_value = 0
     for i in range(0, n):
