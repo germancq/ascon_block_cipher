@@ -36,7 +36,7 @@ async def test_ascon(
     C_array = [0] * (num_blocks_i_data)
 
     dut.rst.value = 1
-    dut.enc_dec = 0
+    dut.enc_dec.value = 0
     await n_cycles_clock(dut, 10)
     dut.rst.value = 0
     dut.start.value = 1
