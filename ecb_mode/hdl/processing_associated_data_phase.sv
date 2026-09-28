@@ -23,6 +23,8 @@ module processing_associated_data_phase #(
     output logic [7:0] p_impl_rounds,
     output logic p_impl_start,
     output logic p_impl_rst,
+    output logic end_feed_signal,
+    output logic p_active,
     input p_impl_end,
     output logic error,
     output logic end_signal
@@ -65,8 +67,10 @@ module processing_associated_data_phase #(
     p_impl_rounds = b;
     p_impl_rst = 0;
     p_impl_start = 0;
+    p_active = 0;
     end_signal = 0;
     error = 0;
+    end_feed_signal = 0;
     r_jmp_state_cl = 0;
     r_jmp_state_w = 0;
     r_jmp_state_din = current_state;
@@ -95,22 +99,24 @@ module processing_associated_data_phase #(
       end
       ASCON_PERMUTATION_B_0: begin
         p_impl_rounds = b;
-        for (j = 0; j < 5; j++) begin
-          state_din[j] = state_dout[j];
-        end
+        p_active = 1;
+        //        for (j = 0; j < 5; j++) begin
+        //          state_din[j] = state_dout[j];
+        //        end
         p_impl_start = 1;
-        next_state   = ASCON_PERMUTATION_B_1;
+        next_state = ASCON_PERMUTATION_B_1;
       end
       ASCON_PERMUTATION_B_1: begin
         p_impl_rounds = b;
-        for (j = 0; j < 5; j++) begin
-          state_din[j] = state_dout[j];
-        end
+        p_active = 1;
+        //        for (j = 0; j < 5; j++) begin
+        //          state_din[j] = state_dout[j];
+        //        end
         if (p_impl_end == 1) begin
           next_state = jmp_state;
-          for (j = 0; j < 5; j++) begin
-            state_w[j] = 1;
-          end
+          //          for (j = 0; j < 5; j++) begin
+          //            state_w[j] = 1;
+          //          end
         end
       end
       END_FEED: begin
@@ -121,7 +127,7 @@ module processing_associated_data_phase #(
         end
       end
       END_FEED_0: begin
-        end_signal = 1;
+        end_feed_signal = 1;
         if (feed_block == 1) begin
           next_state = XOR_DATA;
         end

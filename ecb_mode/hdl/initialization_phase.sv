@@ -24,6 +24,7 @@ module initialization_phase #(
     output logic p_impl_start,
     output logic p_impl_rst,
     input p_impl_end,
+    output logic p_active,
     output logic end_signal
 );
 
@@ -45,6 +46,7 @@ module initialization_phase #(
     p_impl_rst = 0;
     p_impl_start = 0;
     end_signal = 0;
+    p_active = 0;
     case (current_state)
       IDLE: begin
         if (start) begin
@@ -72,22 +74,24 @@ module initialization_phase #(
       end
       ASCON_PERMUTATION_A_0: begin
         p_impl_rounds = a;
-        for (j = 0; j < 5; j++) begin
-          state_din[j] = state_dout[j];
-        end
+        p_active = 1;
+        //        for (j = 0; j < 5; j++) begin
+        //          state_din[j] = state_dout[j];
+        //        end
         p_impl_start = 1;
-        next_state   = ASCON_PERMUTATION_A_1;
+        next_state = ASCON_PERMUTATION_A_1;
       end
       ASCON_PERMUTATION_A_1: begin
         p_impl_rounds = a;
-        for (j = 0; j < 5; j++) begin
-          state_din[j] = state_dout[j];
-        end
+        p_active = 1;
+        //        for (j = 0; j < 5; j++) begin
+        //          state_din[j] = state_dout[j];
+        //        end
         if (p_impl_end == 1) begin
           next_state = XOR_KEY;
-          for (j = 0; j < 5; j++) begin
-            state_w[j] = 1;
-          end
+          //          for (j = 0; j < 5; j++) begin
+          //            state_w[j] = 1;
+          //          end
         end
       end
       XOR_KEY: begin

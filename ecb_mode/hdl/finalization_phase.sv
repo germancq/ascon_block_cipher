@@ -23,6 +23,7 @@ module finalization_phase #(
     output logic [7:0] p_impl_rounds,
     output logic p_impl_start,
     output logic p_impl_rst,
+    output logic p_active,
     input p_impl_end,
     output logic end_signal
 );
@@ -56,6 +57,7 @@ module finalization_phase #(
     p_impl_rounds = a;
     p_impl_rst = 0;
     p_impl_start = 0;
+    p_active = 0;
     end_signal = 0;
     tag_w = 0;
     tag_din = 0;
@@ -84,22 +86,24 @@ module finalization_phase #(
       end
       ASCON_PERMUTATION_A_0: begin
         p_impl_rounds = a;
-        for (j = 0; j < 5; j++) begin
-          state_din[j] = state_dout[j];
-        end
+        p_active = 1;
+        //for (j = 0; j < 5; j++) begin
+        //  state_din[j] = state_dout[j];
+        //end
         p_impl_start = 1;
-        next_state   = ASCON_PERMUTATION_A_1;
+        next_state = ASCON_PERMUTATION_A_1;
       end
       ASCON_PERMUTATION_A_1: begin
         p_impl_rounds = a;
-        for (j = 0; j < 5; j++) begin
-          state_din[j] = state_dout[j];
-        end
+        p_active = 1;
+        //for (j = 0; j < 5; j++) begin
+        //  state_din[j] = state_dout[j];
+        //end
         if (p_impl_end == 1) begin
           next_state = XOR_KEY;
-          for (j = 0; j < 5; j++) begin
-            state_w[j] = 1;
-          end
+          //  for (j = 0; j < 5; j++) begin
+          //    state_w[j] = 1;
+          //  end
         end
       end
       XOR_KEY: begin

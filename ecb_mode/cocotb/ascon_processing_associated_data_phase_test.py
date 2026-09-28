@@ -93,8 +93,8 @@ async def test_associated_data(dut, expected_State, A_array, num_blocks):
         ), f"ERROR STATE IN TEST, STATE={int(dut.current_state.value)}"
         dut.p_impl_end.value = 1
 
-        for i in range(0, 5):
-            dut.state_dout[i].value = S_dut[i]
+        #        for i in range(0, 5):
+        #            dut.state_dout[i].value = S_dut[i]
 
         await n_cycles_clock(dut, 1)
 
