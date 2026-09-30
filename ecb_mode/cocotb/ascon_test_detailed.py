@@ -95,8 +95,8 @@ async def test_ascon(
     for i in range(0, num_blocks_i_data):
         dut._log.info("cycle i_data = {}".format(i))
 
-        for i in range(0, 5):
-            dut._log.info(hex(dut.state_ascon_dout[i].value))
+        for k in range(0, 5):
+            dut._log.info(hex(dut.state_ascon_dout[k].value))
 
         dut.block_i.value = i_data_array[i]
         dut.feed_block.value = 1
