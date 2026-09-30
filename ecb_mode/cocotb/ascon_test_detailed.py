@@ -10,10 +10,9 @@ import sys
 
 import cocotb
 import numpy as np
+from ascon import *
 from cocotb.clock import Clock
 from cocotb.triggers import FallingEdge, RisingEdge, Timer
-
-from ascon import *
 
 CLK_PERIOD = 20
 
@@ -95,6 +94,10 @@ async def test_ascon(
     dut._log.info("START I_DATA")
     for i in range(0, num_blocks_i_data):
         dut._log.info("cycle i_data = {}".format(i))
+
+        for i in range(0, 5):
+            dut._log.info(hex(dut.state_ascon_dout[i].value))
+
         dut.block_i.value = i_data_array[i]
         dut.feed_block.value = 1
         if i == num_blocks_i_data - 1:
@@ -111,10 +114,26 @@ async def test_ascon(
             dut.last_block.value = 1
             while dut.plaintext_end_signal.value == 0:
                 await n_cycles_clock(dut, 1)
+                dut._log.info("p_active = {}".format(dut.p_active.value))
+                dut._log.info("p_impl_start = {}".format(
+                    dut.p_impl_start.value))
+                for i in range(0, 5):
+                    dut._log.info(
+                        "state[{}] = {}".format(
+                            i, hex(dut.state_ascon_dout[i].value))
+                    )
         else:
             dut.last_block.value = 0
             while dut.feed_complete.value == 0:
                 await n_cycles_clock(dut, 1)
+                dut._log.info("p_active = {}".format(dut.p_active.value))
+                dut._log.info("p_impl_start = {}".format(
+                    dut.p_impl_start.value))
+                for i in range(0, 5):
+                    dut._log.info(
+                        "state[{}] = {}".format(
+                            i, hex(dut.state_ascon_dout[i].value))
+                    )
 
         C_array[i] = dut.block_o.value
         dut._log.info("C_array {} = {}".format(i, hex(C_array[i])))
@@ -169,7 +188,7 @@ async def test(dut, index=0):
     nonce = random.getrandbits(128)
     dut._log.info(hex(nonce))
 
-    m = 1  # random.randint(1, 3)
+    m = random.randint(1, 3)
     A_array = [0] * m
     A_value = 0
     for i in range(0, m):
@@ -177,7 +196,7 @@ async def test(dut, index=0):
         A_array[i] = A_data
         A_value = A_value + (A_data << (int(dut.rate.value)) * (i * 8))
 
-    n = 1  # random.randint(1, 3)
+    n = random.randint(1, 3)
     P_array = [0] * n
     P_value = 0
     for i in range(0, n):
