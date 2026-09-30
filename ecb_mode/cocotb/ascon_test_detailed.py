@@ -128,11 +128,6 @@ async def test_ascon(
                 )
                 dut._log.info("p_impl_start = {}".format(
                     dut.p_impl_start.value))
-                for i in range(0, 5):
-                    dut._log.info(
-                        "state[{}] = {}".format(
-                            i, hex(dut.state_ascon_dout[i].value))
-                    )
         else:
             dut.last_block.value = 0
             while dut.feed_complete.value == 0:
@@ -144,11 +139,6 @@ async def test_ascon(
                 dut._log.info("p_active = {}".format(dut.p_active.value))
                 dut._log.info("p_impl_start = {}".format(
                     dut.p_impl_start.value))
-                for i in range(0, 5):
-                    dut._log.info(
-                        "state[{}] = {}".format(
-                            i, hex(dut.state_ascon_dout[i].value))
-                    )
 
         C_array[i] = dut.block_o.value
         dut._log.info("C_array {} = {}".format(i, hex(C_array[i])))
