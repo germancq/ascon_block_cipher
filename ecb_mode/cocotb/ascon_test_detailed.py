@@ -98,8 +98,8 @@ async def test_ascon(
     for i in range(0, num_blocks_i_data):
         dut._log.info("cycle i_data = {}".format(i))
 
-        for k in range(0, 5):
-            dut._log.info(hex(dut.state_ascon_dout[k].value))
+        #     for k in range(0, 5):
+        #         dut._log.info(hex(dut.state_ascon_dout[k].value))
 
         dut.block_i.value = i_data_array[i]
         dut.feed_block.value = 1
@@ -111,34 +111,34 @@ async def test_ascon(
 
         await n_cycles_clock(dut, 1)
         dut.feed_block.value = 0
-        dut._log.info("p_rst = {}".format(dut.p_impl_rst.value))
-        dut._log.info("STATE_PERMUTATION = {}".format(
-            dut.p_impl.current_state.value))
+        # dut._log.info("p_rst = {}".format(dut.p_impl_rst.value))
+        # dut._log.info("STATE_PERMUTATION = {}".format(
+        #    dut.p_impl.current_state.value))
 
         if i == num_blocks_i_data - 1:
             dut._log.info("LAST BLOCK 2")
             dut.last_block.value = 1
             while dut.plaintext_end_signal.value == 0:
                 await n_cycles_clock(dut, 1)
-                dut._log.info("p_rst = {}".format(dut.p_impl_rst.value))
-                dut._log.info("p_active = {}".format(dut.p_active.value))
-                dut._log.info(
-                    "plaintext_p_active = {}".format(
-                        dut.plaintext_p_active.value)
-                )
-                dut._log.info("p_impl_start = {}".format(
-                    dut.p_impl_start.value))
+                # dut._log.info("p_rst = {}".format(dut.p_impl_rst.value))
+                # dut._log.info("p_active = {}".format(dut.p_active.value))
+                # dut._log.info(
+                #    "plaintext_p_active = {}".format(
+                #        dut.plaintext_p_active.value)
+                # )
+                # dut._log.info("p_impl_start = {}".format(
+                #    dut.p_impl_start.value))
         else:
             dut.last_block.value = 0
             while dut.feed_complete.value == 0:
                 await n_cycles_clock(dut, 1)
-                dut._log.info(
-                    "STATE_PERMUTATION = {}".format(
-                        dut.p_impl.current_state.value)
-                )
-                dut._log.info("p_active = {}".format(dut.p_active.value))
-                dut._log.info("p_impl_start = {}".format(
-                    dut.p_impl_start.value))
+                # dut._log.info(
+                #    "STATE_PERMUTATION = {}".format(
+                #        dut.p_impl.current_state.value)
+                # )
+                # dut._log.info("p_active = {}".format(dut.p_active.value))
+                # dut._log.info("p_impl_start = {}".format(
+                #    dut.p_impl_start.value))
 
         C_array[i] = dut.block_o.value
         dut._log.info("C_array {} = {}".format(i, hex(C_array[i])))
