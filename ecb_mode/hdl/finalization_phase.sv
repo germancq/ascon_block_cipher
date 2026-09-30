@@ -66,6 +66,7 @@ module finalization_phase #(
       IDLE: begin
         tag_cl = 1;
         if (start) begin
+          p_impl_rst = 1;
           next_state = ASCON_PERMUTATION_A_0;
 
           if (rate == 16) begin
