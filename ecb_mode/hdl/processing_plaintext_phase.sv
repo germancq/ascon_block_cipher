@@ -104,6 +104,7 @@ module processing_plaintext_phase #(
         end
       end
       XOR_DATA: begin
+        p_impl_rst = 1;
         if (rate == 8) begin
           state_din[0] = state_dout[0] ^ block_i[63:0];
           r_block_o_din = state_dout[0] ^ block_i[63:0];
