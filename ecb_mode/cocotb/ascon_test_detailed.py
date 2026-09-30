@@ -91,6 +91,7 @@ async def test_ascon(
             dut.state_ascon_dout.value[i] == S_a_data[i]
         ), f"Error in state {i} expected {hex(S_a_data[i])}, calculated={hex(dut.state_ascon_dout.value[i])}"
 
+    dut._log.info("p_rst = {}".format(dut.p_impl_rst.value))
     dut._log.info("START I_DATA")
     for i in range(0, num_blocks_i_data):
         dut._log.info("cycle i_data = {}".format(i))
@@ -108,13 +109,19 @@ async def test_ascon(
 
         await n_cycles_clock(dut, 1)
         dut.feed_block.value = 0
+        dut._log.info("p_rst = {}".format(dut.p_impl_rst.value))
 
         if i == num_blocks_i_data - 1:
             dut._log.info("LAST BLOCK 2")
             dut.last_block.value = 1
             while dut.plaintext_end_signal.value == 0:
                 await n_cycles_clock(dut, 1)
+                dut._log.info("p_rst = {}".format(dut.p_impl_rst.value))
                 dut._log.info("p_active = {}".format(dut.p_active.value))
+                dut._log.info(
+                    "plaintext_p_active = {}".format(
+                        dut.plaintext_p_active.value)
+                )
                 dut._log.info("p_impl_start = {}".format(
                     dut.p_impl_start.value))
                 for i in range(0, 5):
