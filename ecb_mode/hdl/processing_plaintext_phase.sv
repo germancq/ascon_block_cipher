@@ -160,13 +160,14 @@ module processing_plaintext_phase #(
       end
       FINAL_STEP_0: begin
 
+        end_feed_signal = 1;
         state_din[0] = state_dout[0] ^ (1);
-        state_w[0]   = 1;
+        state_w[0] = 1;
 
         // suppose plaintext are multiples of rate
         // if P_len % rate = 0 
 
-        next_state   = END_STATE;
+        next_state = END_STATE;
 
       end
       END_STATE: begin

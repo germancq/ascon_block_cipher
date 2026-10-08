@@ -151,9 +151,10 @@ module processing_associated_data_phase #(
 
       end
       FINAL_STEP_1: begin
+        end_feed_signal = 1;
         state_din[4] = state_dout[4] ^ (1 << 63);
-        state_w[4]   = 1;
-        next_state   = END_STATE;
+        state_w[4] = 1;
+        next_state = END_STATE;
       end
       END_STATE: begin
         end_signal = 1;
