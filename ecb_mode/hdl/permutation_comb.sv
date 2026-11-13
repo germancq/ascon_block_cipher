@@ -40,6 +40,7 @@ module permutation_comb (
   logic [31:0] j;
   logic [7:0] cte_value;
   logic [63:0] x[4:0];
+  logic [63:0] y[4:0];
 
   always_comb begin
     next_state = current_state;
@@ -64,9 +65,6 @@ module permutation_comb (
       end
       COMB_LAYER: begin
 
-        for (j = 0; j < 5; j++) begin
-          x[j] = state_ascon_dout[j];
-        end
         //cte layer
         if (total_rounds == 8) begin
           cte_value[3:0] = counter_rounds_dout + 4;
@@ -75,32 +73,37 @@ module permutation_comb (
           cte_value[3:0] = counter_rounds_dout;
           cte_value[7:4] = 15 - counter_rounds_dout;
         end
-        x[2] = x[2] ^ cte_value;
+        x[0] = state_ascon_dout[0];
+        x[1] = state_ascon_dout[1];
+        x[2] = state_ascon_dout[2] ^ cte_value;
+        x[3] = state_ascon_dout[3];
+        x[4] = state_ascon_dout[4];
+
         //subs_layer
         for (j = 0; j < 64; j++) begin
-          state_ascon_din[0][j] = (x[4][j] & x[1][j]) ^ (x[3][j]) ^ (x[2][j] & x[1][j]) ^ (x[2][j]) ^ (x[1][j] & x[0][j]) ^ (x[1][j]) ^ (x[0][j]);
+          y[0][j] = (x[4][j] & x[1][j]) ^ (x[3][j]) ^ (x[2][j] & x[1][j]) ^ (x[2][j]) ^ (x[1][j] & x[0][j]) ^ (x[1][j]) ^ (x[0][j]);
 
-          state_ascon_din[1][j] = (x[4][j]) ^ (x[3][j] & x[2][j]) ^ (x[3][j] & x[1][j]) ^ (x[3][j]) ^ (x[2][j] & x[1][j]) ^ (x[2][j]) ^ (x[1][j]) ^ (x[0][j]);
+          y[1][j] = (x[4][j]) ^ (x[3][j] & x[2][j]) ^ (x[3][j] & x[1][j]) ^ (x[3][j]) ^ (x[2][j] & x[1][j]) ^ (x[2][j]) ^ (x[1][j]) ^ (x[0][j]);
 
-          state_ascon_din[2][j] = (x[4][j] & x[3][j]) ^ (x[4][j]) ^ (x[2][j]) ^ (x[1][j]) ^ 1;
+          y[2][j] = (x[4][j] & x[3][j]) ^ (x[4][j]) ^ (x[2][j]) ^ (x[1][j]) ^ 1;
 
-          state_ascon_din[3][j] = (x[4][j] & x[0][j]) ^ (x[4][j]) ^ (x[3][j] & x[0][j]) ^ (x[3][j]) ^ (x[2][j]) ^ (x[1][j]) ^ (x[0][j]);
+          y[3][j] = (x[4][j] & x[0][j]) ^ (x[4][j]) ^ (x[3][j] & x[0][j]) ^ (x[3][j]) ^ (x[2][j]) ^ (x[1][j]) ^ (x[0][j]);
 
-          state_ascon_din[4][j] = (x[4][j] & x[1][j]) ^ (x[4][j]) ^ (x[3][j]) ^ (x[1][j] & x[0][j]) ^ (x[1][j]);
+          y[4][j] = (x[4][j] & x[1][j]) ^ (x[4][j]) ^ (x[3][j]) ^ (x[1][j] & x[0][j]) ^ (x[1][j]);
 
         end
 
 
         //diffusion layer
-        state_ascon_din[0] = state_ascon_din[0] ^ {state_ascon_din[0][18:0], state_ascon_din[0][63:19]} ^ {state_ascon_din[0][27:0], state_ascon_din[0][63:28]};
+        state_ascon_din[0] = y[0] ^ {y[0][18:0], y[0][63:19]} ^ {y[0][27:0], y[0][63:28]};
 
-        state_ascon_din[1] = state_ascon_din[1] ^ {state_ascon_din[1][60:0],state_ascon_din[1][63:61]} ^ {state_ascon_din[1][38:0],state_ascon_din[1][63:39]};
+        state_ascon_din[1] = y[1] ^ {y[1][60:0], y[1][63:61]} ^ {y[1][38:0], y[1][63:39]};
 
-        state_ascon_din[2] = state_ascon_din[2] ^ {state_ascon_din[2][0:0],state_ascon_din[2][63:1]} ^ {state_ascon_din[2][5:0],state_ascon_din[2][63:6]};
+        state_ascon_din[2] = y[2] ^ {y[2][0:0], y[2][63:1]} ^ {y[2][5:0], y[2][63:6]};
 
-        state_ascon_din[3] = state_ascon_din[3] ^ {state_ascon_din[3][9:0],state_ascon_din[3][63:10]} ^ {state_ascon_din[3][16:0],state_ascon_din[3][63:17]};
+        state_ascon_din[3] = y[3] ^ {y[3][9:0], y[3][63:10]} ^ {y[3][16:0], y[3][63:17]};
 
-        state_ascon_din[4] = state_ascon_din[4] ^ {state_ascon_din[4][6:0],state_ascon_din[4][63:7]} ^ {state_ascon_din[4][40:0],state_ascon_din[4][63:41]};
+        state_ascon_din[4] = y[4] ^ {y[4][6:0], y[4][63:7]} ^ {y[4][40:0], y[4][63:41]};
 
         for (j = 0; j < 5; j++) begin
           state_ascon_w[j] = 1;
