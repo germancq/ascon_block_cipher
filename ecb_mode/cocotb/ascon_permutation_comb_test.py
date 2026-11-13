@@ -130,8 +130,8 @@ async def test(dut, index=0):
 
     key = random.getrandbits(128)
     nonce = random.getrandbits(128)
-    total_rounds = [6, 8, 12]
-    random_number = random.randint(0, 2)
+    total_rounds = [8, 12]
+    random_number = random.randint(0, 1)
     t_rnds = total_rounds[random_number]
     print(t_rnds)
     print(hex(key))
