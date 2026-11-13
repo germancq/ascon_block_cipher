@@ -60,6 +60,8 @@ async def permutation_loop_test(dut, ascon_sw):
             dut.COMB_LAYER.value
         ), f"ERROR STATE IN COMB_LAYER, STATE={int(dut.current_state.value)}"
 
+        dut._log.info(f"ronda = {i}")
+
         ascon_sw.constant_addition_layer(int(dut.total_rounds.value), i)
 
         ascon_sw.substitution_layer()
