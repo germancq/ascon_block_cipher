@@ -6,7 +6,7 @@
  * Last Modified By  : German C.Quiveu <germancq@dte.us.es>
  */
 
-module permutation_comb (
+module permutation (
     input clk,
     input rst,
     input start,
