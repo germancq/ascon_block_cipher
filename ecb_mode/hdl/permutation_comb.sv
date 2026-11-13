@@ -106,6 +106,8 @@ module permutation_comb (
           state_ascon_w[j] = 1;
         end
 
+        counter_rounds_up = 1;
+
         if (counter_rounds_dout == total_rounds) begin
           next_state = END_STATE;
         end
