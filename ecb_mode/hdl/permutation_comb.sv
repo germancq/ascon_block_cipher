@@ -103,7 +103,7 @@ module permutation_comb (
         state_ascon_din[4] = state_ascon_din[4] ^ {state_ascon_din[4][6:0],state_ascon_din[4][63:7]} ^ {state_ascon_din[4][40:0],state_ascon_din[4][63:41]};
 
         for (j = 0; j < 5; j++) begin
-          state_ascon_w = 1;
+          state_ascon_w[j] = 1;
         end
 
         if (counter_rounds_dout == total_rounds) begin
