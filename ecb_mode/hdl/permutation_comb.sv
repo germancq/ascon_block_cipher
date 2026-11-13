@@ -108,7 +108,7 @@ module permutation_comb (
 
         counter_rounds_up = 1;
 
-        if (counter_rounds_dout == total_rounds) begin
+        if (counter_rounds_dout == total_rounds - 1) begin
           next_state = END_STATE;
         end
       end
