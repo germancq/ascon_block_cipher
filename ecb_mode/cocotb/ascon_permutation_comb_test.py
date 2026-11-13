@@ -67,17 +67,25 @@ async def permutation_loop_test(dut, ascon_sw):
         ascon_sw.constant_addition_layer(int(dut.total_rounds.value), i)
 
         for j in range(0, 5):
-            assert dut.x[j].value == ascon_sw.state_array[j], f"ERROR IN CTE_LAYER expected {hex(ascon_sw.state_array[j]), calculated = {hex(dut.x[j].value)}}"
+            assert (
+                dut.x[j].value == ascon_sw.state_array[j]
+            ), f"ERROR IN CTE_LAYER expected {hex(ascon_sw.state_array[j])}, calculated = {hex(dut.x[j].value)}"
 
         ascon_sw.substitution_layer()
 
         for j in range(0, 5):
-            assert dut.y[j].value == ascon_sw.state_array[j], f"ERROR IN SBOX_LAYER expected {hex(ascon_sw.state_array[j]), calculated = {hex(dut.y[j].value)}}"
+            assert (
+                dut.y[j].value == ascon_sw.state_array[j]
+            ), f"ERROR IN SBOX_LAYER expected {
+                hex(ascon_sw.state_array[j])}, calculated = {hex(dut.y[j].value)}"
 
         ascon_sw.linear_diffusion_layer()
 
         for j in range(0, 5):
-            assert dut.state_ascon_din[j].value == ascon_sw.state_array[j], f"ERROR IN LINEAR_LAYER expected {hex(ascon_sw.state_array[j]), calculated = {hex(dut.state_ascon_din[j].value)}}"
+            assert (
+                dut.state_ascon_din[j].value == ascon_sw.state_array[j]
+            ), f"ERROR IN LINEAR_LAYER expected {
+                hex(ascon_sw.state_array[j])}, calculated = {hex(dut.state_ascon_din[j].value)}"
 
         for j in range(0, 5):
             calculated_state[j] = dut.state_ascon_din[j].value
